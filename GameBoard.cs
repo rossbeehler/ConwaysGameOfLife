@@ -1,121 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ConwaysGame_StartAtBoard
+﻿namespace ConwaysGameOfLife
 {
     public class GameBoard
     {
-        private int[][] currentState;
+        public int[][] CurrentBoard { get; private set; }
 
-        public GameBoard(int[][] initialState)
+        public GameBoard(int[][] initialBoard)
         {
-            this.currentState = initialState;
+            CurrentBoard = initialBoard;
         }
 
         public void Tick()
         {
-            for (int row = 0; row < currentState.Length; row++)
+            var nextBoard = new int[CurrentBoard.Length][];
+
+            for (int row = 0; row < CurrentBoard.Length; row++)
             {
-                for (int column = 0; column < currentState[row].Length; column++)
-                {
-                    if (currentState[row][column] == 1)
-                    {
-                        if (AliveNeighbors(row, column) < 2)
-                        {
-                            currentState[row][column] = 0;
-                        }
-                    }
-                }
+                SetAliveOrDead(nextBoard, row);
+            }
+
+            CurrentBoard = nextBoard;
+        }
+
+        private void SetAliveOrDead(int[][] nextBoard, int row)
+        {
+            nextBoard[row] = new int[CurrentBoard[row].Length];
+            for (int column = 0; column < CurrentBoard[row].Length; column++)
+            {
+                SetAliveOrDead(nextBoard, row, column);
             }
         }
 
-        public int[][] CurrentState
+        private void SetAliveOrDead(int[][] nextBoard, int row, int column)
         {
-            get
-            {
-                return this.currentState;
-            }
+            if (AliveNeighbors(row, column) == 3)
+                nextBoard[row][column] = 1;
+            else if (AliveNeighbors(row, column) == 2)
+                nextBoard[row][column] = CurrentBoard[row][column];
+            else
+                nextBoard[row][column] = 0;
         }
 
         private int AliveNeighbors(int row, int column)
         {
-            return Left(row, column) +
-                   Up(row, column) +
-                   UpperLeft(row, column) +
-                   UpperRight(row, column) +
-                   Right(row, column) +
-                   Down(row, column) +
-                   LowerRight(row, column) +
-                   LowerLeft(row, column);
+            return AliveAt(row - 1, column - 1) + AliveAt(row - 1, column + 0) + AliveAt(row - 1, column + 1) +
+                   AliveAt(row + 0, column - 1) +                                AliveAt(row + 0, column + 1) +
+                   AliveAt(row + 1, column - 1) + AliveAt(row + 1, column + 0) + AliveAt(row + 1, column + 1);
         }
 
-        private int LowerLeft(int row, int column)
+        private int AliveAt(int row, int column)
         {
-            if (IsOutsideBounds(column - 1, row + 1))
+            if (IsOutsideBounds(row, column))
                 return 0;
-            return currentState[row + 1][column - 1];
+
+            return CurrentBoard[row][column];
         }
 
-        private int LowerRight(int row, int column)
+        private bool IsOutsideBounds(int row, int column)
         {
-            if (IsOutsideBounds(column + 1, row + 1))
-                return 0;
-            return currentState[row + 1][column + 1];
-        }
-
-        private int Down(int row, int column)
-        {
-            if (IsOutsideBounds(column, row + 1))
-                return 0;
-            return currentState[row + 1][column + 0];
-        }
-
-        private int Right(int row, int column)
-        {
-            if (IsOutsideBounds(column + 1, row))
-                return 0;
-            return currentState[row + 0][column + 1];
-        }
-
-        private int UpperRight(int row, int column)
-        {
-            if (IsOutsideBounds(column + 1, row - 1))
-                return 0;
-            return currentState[row - 1][column + 1];
-        }
-
-        private int UpperLeft(int row, int column)
-        {
-            if (IsOutsideBounds(column - 1, row - 1))
-                return 0;
-            return currentState[row - 1][column - 1];
-        }
-
-        private int Up(int row, int column)
-        {
-            if (IsOutsideBounds(column, row - 1))
-                return 0;
-            return currentState[row - 1][column - 0];
-        }
-
-        private int Left(int row, int column)
-        {
-            if (IsOutsideBounds(column - 1, row))
-                return 0;
-            return currentState[row - 0][column - 1];
-        }
-        
-        private bool IsOutsideBounds(int column, int row)
-        {
-            if (column < 0 || column >= currentState[0].Length ||
-                row < 0 || row >= currentState.Length)
-            {
-                return true;
-            }
-
-            return false;
+            return column < 0 || column >= CurrentBoard[0].Length ||
+                   row < 0 || row >= CurrentBoard.Length;
         }
     }
 }

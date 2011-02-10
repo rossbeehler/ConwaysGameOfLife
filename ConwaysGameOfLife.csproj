@@ -8,7 +8,7 @@
     <ProjectGuid>{54608978-78CB-4A20-8B29-9D490ED8B06E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConwaysGame_StartAtBoard</RootNamespace>
+    <RootNamespace>ConwaysGameOfLife</RootNamespace>
     <AssemblyName>ConwaysGame_StartAtBoard</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

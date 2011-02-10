@@ -9,7 +9,7 @@
     <ProjectGuid>{B88512CD-DDC8-45EA-BEB1-9807E6C0EE1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestProject1</RootNamespace>
+    <RootNamespace>ConwaysGameOfLifeTest</RootNamespace>
     <AssemblyName>TestProject1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
