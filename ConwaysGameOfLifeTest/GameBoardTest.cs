@@ -237,8 +237,30 @@ namespace ConwaysGameOfLifeTest
         {
             var g = new GameBoard(new int[][]
             {
-                new [] { 1, 1, 0 },
-                new [] { 1, 1, 0 },
+                new [] { 0, 0, 0, 0 },
+                new [] { 0, 1, 1, 0 },
+                new [] { 0, 1, 1, 0 },
+                new [] { 0, 1, 0, 0 },
+            });
+
+            g.Tick();
+
+            AssertEqualBoard(g, new int[][]
+            {
+                new [] { 0, 0, 0, 0 },
+                new [] { 0, 1, 1, 0 },
+                new [] { 1, 0, 0, 0 },
+                new [] { 0, 1, 1, 0 },
+            });
+        }
+
+        [TestMethod]
+        public void TestBoardGrowsLeft()
+        {
+            var g = new GameBoard(new int[][]
+            {
+                new [] { 1, 0, 0 },
+                new [] { 1, 0, 0 },
                 new [] { 1, 0, 0 },
             });
 
@@ -246,10 +268,12 @@ namespace ConwaysGameOfLifeTest
 
             AssertEqualBoard(g, new int[][]
             {
-                new [] { 1, 1, 0 },
-                new [] { 0, 0, 0 },
-                new [] { 1, 1, 0 },
+                new [] { 0, 0, 0, 0 },
+                new [] { 1, 1, 0, 0 },
+                new [] { 0, 0, 0, 0 },
             });
         }
+
+
     }
 }
